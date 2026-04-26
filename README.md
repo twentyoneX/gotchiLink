@@ -26,7 +26,8 @@ Replaces the default `pwnagotchi.local:8080` look with a clean dashboard you can
 
 ## Screenshots
 
-<img width="869" height="1600" alt="image" src="https://github.com/user-attachments/assets/64d7b38c-e1a7-4e70-8e28-4ae678a488f4" />
+<img width="934" height="1600" alt="image" src="https://github.com/user-attachments/assets/a6708636-07e5-47ae-9d0b-edcb08361af3" />
+
 
 
 ---
