@@ -1,97 +1,229 @@
-# gotchiLink 💻🌐
+# gotchiLink
 
-**gotchiLink** is a modern, high-performance web dashboard for Pwnagotchi. It provides a clean, mobile-friendly interface to monitor your device and manage handshakes in real-time.
+A modern, mobile-friendly web dashboard plugin for [Pwnagotchi](https://pwnagotchi.ai/) — inspired by the PwnagotchLink iOS app.
 
-Designed specifically for the community, it features a sleek dark theme and native system monitoring for maximum accuracy.
+Replaces the default `pwnagotchi.local:8080` look with a clean dashboard you can use from any browser, on any device. No app required.
 
----
-
-## ✨ Features
-
-*   **Modern Dark UI**: A clean, "App-like" experience for mobile and desktop.
-*   **Hardened System Stats**: Uses native Linux system calls to provide accurate **RAM**, **CPU**, and **Temp** data.
-*   **Handshake Manager**: View, download, or delete captured handshakes directly from the dashboard.
-*   **Dynamic PWND Badge**: Displays your lifetime total handshake count.
-*   **Jayofelony Ready**: Optimized for the latest Jayofelony firmware releases.
+> ⚠️ The original web UI at `pwnagotchi.local:8080` is **not affected**. Both run side by side.
 
 ---
 
-## 🚀 Installation Guide
+## Features
 
-### 1. SSH into your Pwnagotchi
-Connect to your device via terminal:
+- **Live face** — real-time face expression, mood state, and status message
+- **Stats grid** — Mode / Channel / APs / RAM / CPU / Temperature
+- **PWND counter** — lifetime handshake count badge in the header
+- **Handshakes tab** — full list of captured `.pcap` files read from disk, with:
+  - ⬇ **Download** individual `.pcap` files directly to your device
+  - 🗑 **Delete** handshakes with a confirmation modal
+- **Restart modal** — restart in MANU or AUTO mode from the UI
+- **General & System info** — name, Pwnagotchi version, plugin version, board model, enabled plugins, uptime
+- **Dark mode** — follows system preference automatically
+- **Zero dependencies** — no `psutil`, no extra packages, uses native `/proc` reads
+- Works on **mobile, tablet, and desktop** browsers
+
+---
+
+## Screenshots
+
+> *(add your screenshots here)*
+
+---
+
+## Requirements
+
+| Requirement | Version |
+|---|---|
+| Pwnagotchi | 2.8.x / 2.9.x |
+| Python | 3.x |
+| Flask | already bundled with Pwnagotchi |
+
+No extra pip packages needed.
+
+---
+
+## Install
+
+### Option A — copy from your computer
+
 ```bash
-ssh pi@10.0.0.2
+scp pwnagotchi_custom_ui.py pi@10.42.0.200:/home/pi/
+```
 
-2. Create/Navigate to the Custom Plugins Folder
+Then on the Pi, move it to the custom plugins directory:
 
-On Jayofelony images, custom plugins should live in this specific folder. Run this command to ensure it exists and move into it:
-code Bash
+```bash
+ssh pi@10.42.0.200
+sudo mv /home/pi/pwnagotchi_custom_ui.py /usr/local/share/pwnagotchi/custom-plugins/
+sudo chmod 644 /usr/local/share/pwnagotchi/custom-plugins/pwnagotchi_custom_ui.py
+```
 
-sudo mkdir -p /usr/local/share/pwnagotchi/custom-plugins/
-cd /usr/local/share/pwnagotchi/custom-plugins/
+### Option B — directly on the device
 
-3. Download the Plugin
+```bash
+ssh pi@10.42.0.200
+sudo wget -O /usr/local/share/pwnagotchi/custom-plugins/pwnagotchi_custom_ui.py \
+  https://raw.githubusercontent.com/YOUR_USERNAME/gotchiLink/main/pwnagotchi_custom_ui.py
+```
 
-Download the dashboard file directly from this repository:
-code Bash
+---
 
-sudo wget https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/gotchiLink/main/pwnagotchi_custom_ui.py
+## Enable
 
-4. Configure your Pwnagotchi
+Add to `/etc/pwnagotchi/config.toml`:
 
-Now you need to enable the plugin and tell Pwnagotchi where to look for it. Open your configuration file:
-code Bash
+```toml
+[main.plugins.pwnagotchi_custom_ui]
+enabled = true
+```
 
-sudo nano /etc/pwnagotchi/config.toml
+> ⚠️ Make sure it is a proper TOML section `[main.plugins.pwnagotchi_custom_ui]` with `enabled = true` on the next line — not a flat one-liner.
 
-Inside the nano editor:
+Then restart:
 
-    Check that the custom_plugins path is correct. Find the [main] section and ensure this line is there:
-    code Toml
-
-    main.custom_plugins = "/usr/local/share/pwnagotchi/custom-plugins/"
-
-    Scroll to the very bottom of the file and add the following block:
-    code Toml
-
-    [main.plugins.pwnagotchi_custom_ui]
-    enabled = true
-
-    Save your changes: Press CTRL + O, then press Enter.
-
-    Exit the editor: Press CTRL + X.
-
-5. Restart the Software
-
-Restart the pwnagotchi service to apply all your changes:
-code Bash
-
+```bash
 sudo systemctl restart pwnagotchi
+```
 
-🔗 How to Access the Dashboard
+Check the logs to confirm it loaded:
 
-Wait about 60 seconds for the device to boot, then open your browser and go to:
+```bash
+sudo tail -f /etc/pwnagotchi/log/pwnagotchi.log | grep gotchiLink
+```
 
-👉 http://pwnagotchi.local:8080/plugins/pwnagotchi_custom_ui/
-💡 Pro-Tip: Companion Plugins
+You should see:
+```
+[gotchiLink] loaded — http://pwnagotchi.local:8080/plugins/pwnagotchi_custom_ui/
+```
 
-For the best experience, we recommend using gotchiLink alongside these plugins:
+---
 
-    display_password: Shows cracked passwords on your e-ink screen.
+## Usage
 
-    cracked: Provides a web list of all your cracked network keys.
+Open in any browser:
 
-🛠 Troubleshooting
+```
+http://pwnagotchi.local:8080/plugins/pwnagotchi_custom_ui/
+```
 
-If the dashboard doesn't appear in your Plugins list:
+Or by IP (useful when connecting over USB):
 
-    Ensure the filename in the folder is exactly pwnagotchi_custom_ui.py.
+```
+http://10.42.0.200:8080/plugins/pwnagotchi_custom_ui/
+```
 
-    Run ls -la /usr/local/share/pwnagotchi/custom-plugins/ to verify the file is there.
+> **Tip:** On USB tether, your Pwnagotchi's IP may not be `10.42.0.2` — check with `arp -n` or `ip neigh show` to find the actual IP.
 
-    Check the system logs for errors: sudo tail -f /var/log/pwnagotchi.log
+---
 
-⚖️ License
+## API Endpoints
 
-This project is licensed under the GPL-3.0 License.
+The plugin exposes a small REST API you can query directly:
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/plugins/pwnagotchi_custom_ui/api/state` | Current device state as JSON |
+| `GET` | `/plugins/pwnagotchi_custom_ui/api/handshakes` | List of `.pcap` files on disk |
+| `GET` | `/plugins/pwnagotchi_custom_ui/api/handshakes/download/<file>` | Download a specific `.pcap` |
+| `GET` | `/plugins/pwnagotchi_custom_ui/api/handshakes/delete?file=<file>` | Delete a `.pcap` and companion files |
+| `GET` | `/plugins/pwnagotchi_custom_ui/api/restart?mode=MANU\|AUTO` | Restart in the specified mode |
+
+Example state response:
+
+```json
+{
+  "name": "pwnagotchi",
+  "face": "(^- -^)",
+  "mood": "HAPPY",
+  "message": "Kicked 4 stations Made 5 new friends Got 0 handshakes",
+  "channel": 6,
+  "aps": 12,
+  "mode": "AUTO",
+  "handshakes": 3,
+  "pwnd": 47,
+  "temp": 53,
+  "cpu": 7,
+  "mem": 50,
+  "uptime": "1:23:45",
+  "pwnagotchi_version": "2.9.5.4",
+  "plugin_version": "1.1.7",
+  "board": "Raspberry Pi Zero 2 W Rev 1.0",
+  "enabled_plugins": 8
+}
+```
+
+---
+
+## Connecting over USB on Linux
+
+If your PC assigns a different IP than expected:
+
+```bash
+# Find the Pwnagotchi's actual IP
+ip neigh show dev enx<your_usb_interface>
+
+# Or scan the subnet
+arp -n | grep enx<your_usb_interface>
+```
+
+The Pwnagotchi typically lands somewhere in the `10.42.0.x` range.
+
+---
+
+## Disable / Uninstall
+
+To disable without removing the file:
+
+```toml
+[main.plugins.pwnagotchi_custom_ui]
+enabled = false
+```
+
+To fully remove:
+
+```bash
+sudo rm /usr/local/share/pwnagotchi/custom-plugins/pwnagotchi_custom_ui.py
+sudo systemctl restart pwnagotchi
+```
+
+---
+
+## Troubleshooting
+
+**Plugin not loading / 404 at the URL**
+- Make sure the file is in `/usr/local/share/pwnagotchi/custom-plugins/` — check with `ls` that directory
+- Verify the config.toml entry is a proper `[section]` block, not a flat key
+- Check logs: `sudo tail -50 /etc/pwnagotchi/log/pwnagotchi.log`
+
+**Handshakes tab empty**
+- Confirm your handshakes are in `/home/pi/handshakes/` or `/root/handshakes/`
+- The plugin auto-detects both paths
+
+**Temperature / CPU / RAM showing `—`**
+- These populate after the first epoch (about 30–60 seconds after boot)
+
+**Can't SSH / connect**
+- Your Pwnagotchi's IP on USB may not be `10.42.0.2` — run `ip neigh show` on your PC to find it
+
+---
+
+## Contributing
+
+Pull requests are welcome. Ideas for future features:
+
+- GPS map overlay for handshakes
+- WPA-sec upload integration
+- Push notifications on new handshake
+- Search / filter in handshakes list
+
+---
+
+## License
+
+GPL-3.0 — same license as Pwnagotchi itself.
+
+---
+
+## Credits
+
+Inspired by the [PwnagotchLink](https://github.com/G4vr0ch3/PwnagotchLink) iOS app by G4vr0ch3.
