@@ -1,4 +1,3 @@
-<img width="938" height="1600" alt="Untitled-1" src="https://github.com/user-attachments/assets/caf2daa1-9b83-450d-9f39-049573c7ef99" />
 # gotchiLink
 
 A modern, mobile-friendly web dashboard plugin for [Pwnagotchi](https://pwnagotchi.ai/) — inspired by the PwnagotchLink iOS app.
