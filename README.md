@@ -1,3 +1,4 @@
+<img width="938" height="1600" alt="Untitled-1" src="https://github.com/user-attachments/assets/caf2daa1-9b83-450d-9f39-049573c7ef99" />
 # gotchiLink
 
 A modern, mobile-friendly web dashboard plugin for [Pwnagotchi](https://pwnagotchi.ai/) — inspired by the PwnagotchLink iOS app.
@@ -26,7 +27,8 @@ Replaces the default `pwnagotchi.local:8080` look with a clean dashboard you can
 
 ## Screenshots
 
-<img width="934" height="1600" alt="image" src="https://github.com/user-attachments/assets/a6708636-07e5-47ae-9d0b-edcb08361af3" />
+<img width="934" height="1600" alt="image" src="https://github.com/user-attachments/assets/a6708636-07e5-47ae-9d0b-edcb08361af3" /> <img width="938" height="1600" alt="image" src="https://github.com/user-attachments/assets/c941f5f4-f705-4740-92ef-28a2e44fffb9" />
+
 
 
 
