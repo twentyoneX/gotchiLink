@@ -72,7 +72,7 @@ sudo chmod 644 /usr/local/share/pwnagotchi/custom-plugins/pwnagotchi_custom_ui.p
 ```bash
 ssh pi@10.42.0.200
 sudo wget -O /usr/local/share/pwnagotchi/custom-plugins/pwnagotchi_custom_ui.py \
-  https://raw.githubusercontent.com/YOUR_USERNAME/gotchiLink/main/pwnagotchi_custom_ui.py
+  https://raw.githubusercontent.com/twentyoneX/gotchiLink/main/pwnagotchi_custom_ui.py
 ```
 
 ---
