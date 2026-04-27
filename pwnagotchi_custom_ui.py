@@ -11,7 +11,7 @@ import re
 import pwnagotchi.plugins as plugins
 
 class PwnagotchiCustomUI(plugins.Plugin):
-    __author__      = 'you'
+    __author__      = 'mrx'
     __version__     = '1.3.0'
     __name__        = 'pwnagotchi_custom_ui'
 
