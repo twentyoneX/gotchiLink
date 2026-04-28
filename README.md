@@ -1,6 +1,6 @@
 # gotchiLink
 
-A modern, mobile-friendly web dashboard plugin for [Pwnagotchi](https://pwnagotchi.ai/) — inspired by the PwnagotchLink iOS app.
+A modern, mobile-friendly web dashboard plugin for [Pwnagotchi](https://pwnagotchi.ai/) — inspired by the Pwnagotchi Companion iOS app.
 
 Replaces the default `pwnagotchi.local:8080` look with a clean dashboard you can use from any browser, on any device. No app required.
 
