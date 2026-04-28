@@ -11,8 +11,9 @@ import re
 import pwnagotchi.plugins as plugins
 
 class PwnagotchiCustomUI(plugins.Plugin):
-    __author__      = 'mrx'
+    __author__      = 'twentyoneX'
     __version__     = '1.3.0'
+    __license__     = 'GPL3'
     __name__        = 'pwnagotchi_custom_ui'
 
     def __init__(self):
