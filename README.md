@@ -230,9 +230,3 @@ Pull requests are welcome. Ideas for future features:
 ## License
 
 GPL-3.0 — same license as Pwnagotchi itself.
-
----
-
-## Credits
-
-Inspired by the [PwnagotchLink](https://github.com/G4vr0ch3/PwnagotchLink) iOS app by G4vr0ch3.
